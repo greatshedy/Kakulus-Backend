@@ -8,25 +8,42 @@ Simple FastAPI backend for collecting KYC data and admin management using Astra 
 
 ## Requirements
 - Python 3.9+
-- Packages (install with `pip install -r requirements.txt` or individually):
-  - `fastapi`
-  - `uvicorn`
-  - `astrapy`
-  - `python-dotenv`
-  - `argon2-cffi`
-  - `python-jose`
-  - `apscheduler`
+- Install dependencies from `requirements.txt` (recommended):
+
+```bash
+pip install -r requirements.txt
+```
+
+Typical dependencies (already used in the code):
+- fastapi
+- uvicorn
+- astrapy
+- python-dotenv
+- argon2-cffi
+- python-jose
+- apscheduler
 
 ## Environment Variables
-Create a `.env` file with the following keys used by the code:
+Create a `.env` file with the following keys used by the code. Example values are for illustration only — replace with your real values.
 
-- `DATABASE_URL` - Astra DB API endpoint
-- `DATABASE_TOKEN` - Astra DB token
-- `FRONTEND_URL` - allowed CORS origin for the frontend
-- `ALGORITHM` - JWT algorithm (e.g. `HS256`)
-- `SECRET_KEY` - JWT secret key
-- `PASSWORD` - email account password (used by `send_email_otp`)
-- `SENDER_EMAIL` - email address used to send OTPs
+`.env.example` (copy to `.env` and fill in):
+
+```env
+# Astra DB
+DATABASE_URL=https://your-database-id.apps.astra.datastax.com
+DATABASE_TOKEN=your_astra_token
+
+# Frontend
+FRONTEND_URL=http://localhost:3000
+
+# JWT
+ALGORITHM=JWT algorithm (e.g. HS256)
+SECRET_KEY=supersecretkey
+
+# Email (used by send_email_otp)
+SENDER_EMAIL=youremail@gmail.com
+PASSWORD=your_email_password_or_app_password
+```
 
 ## Running
 1. Install dependencies.
@@ -89,5 +106,7 @@ curl -X POST http://127.0.0.1:8000/submit_kyc \
 ```
 
 ## Next steps
-- Add a `requirements.txt` with the project dependencies.
-- Add unit tests and example `.env.example` to document required env vars.
+- Add or verify `requirements.txt` in the project root.
+- Add unit tests and integration checks for the auth flow.
+
+If you want, I can add a `requirements.txt` and create a `.env.example` file now.
