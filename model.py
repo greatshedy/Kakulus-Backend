@@ -13,6 +13,3 @@ class LoginData(BaseModel):
     email: EmailStr
     password: str
 
-class OtpVerify(BaseModel):
-    id: str
-    otp: str

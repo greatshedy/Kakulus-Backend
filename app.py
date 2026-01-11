@@ -3,9 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from astrapy import DataAPIClient
 from dotenv import load_dotenv
-from utill import create_access_token,verify_refresh_token,hashedpassword,VerifyHashed,verify_access_token,generate_otp, send_email_otp
+from utill import create_access_token,verify_refresh_token,hashedpassword,VerifyHashed,verify_access_token
 import os
-from model import Admin,OtpVerify,LoginData
+from model import Admin,LoginData
 load_dotenv()
 import math
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
