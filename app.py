@@ -33,7 +33,7 @@ scheduler = AsyncIOScheduler()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[FRONTEND_URL],
+    allow_origins=[FRONTEND_URL1,FRONTEND_URL2,FRONTEND_URL3],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
