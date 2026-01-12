@@ -12,7 +12,10 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 DATABASE_TOKEN = os.getenv("DATABASE_TOKEN")
-FRONTEND_URL = os.getenv("FRONTEND_URL")
+# FRONTEND_URL = os.getenv("FRONTEND_URL")
+FRONTEND_URL1 = os.getenv("FRONTEND_URL1")
+FRONTEND_URL2 = os.getenv("FRONTEND_URL2")
+FRONTEND_URL3 = os.getenv("FRONTEND_URL3")
 # Initialize the client
 client = DataAPIClient(DATABASE_TOKEN)
 db = client.get_database_by_api_endpoint(
