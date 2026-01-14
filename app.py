@@ -9,10 +9,12 @@ from model import Admin,LoginData
 load_dotenv()
 import math
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+import requests
+from apscheduler.schedulers.background import BackgroundScheduler
+import random
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 DATABASE_TOKEN = os.getenv("DATABASE_TOKEN")
-# FRONTEND_URL = os.getenv("FRONTEND_URL")
 FRONTEND_URL1 = os.getenv("FRONTEND_URL1")
 FRONTEND_URL2 = os.getenv("FRONTEND_URL2")
 FRONTEND_URL3 = os.getenv("FRONTEND_URL3")
@@ -21,6 +23,9 @@ client = DataAPIClient(DATABASE_TOKEN)
 db = client.get_database_by_api_endpoint(
   DATABASE_URL
 )
+
+
+
 
 # print(f"Connected to Astra DB: {db.list_collection_names()}")
 kyc_data_collection=db.create_collection("user_kyc_data")
@@ -36,25 +41,39 @@ scheduler = AsyncIOScheduler()
 
 app.add_middleware(
     CORSMiddleware,
+    # allow_origins=[FRONTEND_URL1,FRONTEND_URL2,FRONTEND_URL3]#production
     allow_origins=[FRONTEND_URL1,FRONTEND_URL2,FRONTEND_URL3],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 
+
 )
 
 
 # cron
-def ping_db():
-    data=kyc_data_collection.find().to_list()
-    print("Pinging database to prevent hibernation")
+# def ping_db():
+#     data=kyc_data_collection.find().to_list()
+#     print("Pinging database to prevent hibernation")
+
+
+
+
+def ping_self():
+    try:
+        requests.get("https://kakulus-backend.onrender.com")
+        admin_data.find()
+        print("Pinged successfully")
+    except:
+        print("Failed to ping")
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(ping_self, 'interval', minutes=random.randint(5,10))  # every 10 minutes
+scheduler.start()
     
 
 
-# @app.on_event("startup")
-# def start_scheduler():
-#     scheduler.add_job(ping_db, "interval", hours=12)
-#     scheduler.start()
+
 
 # Dependency to to authenticate admin
 
@@ -146,7 +165,9 @@ async def delete_admin(admin_email: str):
 async def login(data: LoginData,response: Response): 
     data = data.dict() 
     email = data["email"] 
+    print(email)
     admin_email =admin_data.find_one({"email":email}) 
+    print(admin_email)
     del admin_email["refresh_token"] 
     if admin_email: 
         if VerifyHashed(admin_email["password"],data["password"]): 
